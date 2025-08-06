@@ -1,0 +1,30 @@
+{
+  "$schema": "https://dl.viam.dev/module.schema.json",
+  "module_id": "mcvella:user-defined-metadata",
+  "visibility": "public",
+  "url": "https://github.com/mcvella/viam-user-defined-metadata",
+  "description": "Modular sensor component: user-defined-metadata",
+  "models": [
+    {
+      "api": "rdk:component:sensor",
+      "model": "mcvella:sensor:user-defined-metadata",
+      "short_description": "Provide a short (100 characters or less) description of this model here",
+      "markdown_link": "README.md"
+    }
+  ],
+  "applications": null,
+  "markdown_link": "README.md",
+  "entrypoint": "./run.sh",
+  "first_run": "",
+  "build": {
+    "build": "./build.sh",
+    "setup": "./setup.sh",
+    "path": "dist/archive.tar.gz",
+    "arch": [
+      "linux/amd64",
+      "linux/arm64",
+      "darwin/arm64",
+      "windows/amd64"
+    ]
+  }
+}
