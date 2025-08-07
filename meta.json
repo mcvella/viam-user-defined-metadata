@@ -8,7 +8,7 @@
     {
       "api": "rdk:component:sensor",
       "model": "mcvella:sensor:user-defined-metadata",
-      "short_description": "Provide a short (100 characters or less) description of this model here",
+      "short_description": "A Viam sensor component that provides access to user-defined metadata for robots and robot parts",
       "markdown_link": "README.md"
     }
   ],

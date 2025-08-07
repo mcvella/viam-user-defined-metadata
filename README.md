@@ -70,7 +70,7 @@ Updates user-defined metadata for either the robot or robot part.
 ```python
 {
   "command": "update",
-  "scope": "machine|part",  # "machine" for robot-level, "part" for part-level
+  "scope": "robot|part",  # "robot" for robot/machine-level, "part" for part-level
   "metadata": {
     # Dictionary of metadata key-value pairs to update
   }
@@ -83,7 +83,7 @@ Update robot-level metadata:
 ```python
 command = {
   "command": "update",
-  "scope": "machine", 
+  "scope": "robot", 
   "metadata": {
     "location": "warehouse-2",
     "last_maintenance": "2024-01-20",
@@ -112,7 +112,7 @@ Success:
 {
   "success": True,
   "message": "Robot metadata updated successfully",
-  "scope": "machine",
+  "scope": "robot",
   "robot_id": "your-robot-id"
 }
 ```
@@ -122,7 +122,7 @@ Error:
 {
   "success": False,
   "error": "Error message details",
-  "scope": "machine", 
+  "scope": "robot", 
   "command": "update"
 }
 ```

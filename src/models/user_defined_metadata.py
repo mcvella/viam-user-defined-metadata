@@ -10,7 +10,7 @@ from viam.resource.base import ResourceBase
 from viam.resource.easy_resource import EasyResource
 from viam.resource.types import Model, ModelFamily
 from viam.utils import SensorReading, ValueTypes
-from viam.app.app_client import AppClient
+from viam.app.viam_client import ViamClient
 from viam.rpc.dial import DialOptions, Credentials
 
 
@@ -23,11 +23,11 @@ class UserDefinedMetadata(Sensor, EasyResource):
 
     def __init__(self, name: str):
         super().__init__(name)
-        self._app_client = None
+        self._viam_client = None
 
-    async def _get_app_client(self) -> AppClient:
-        """Get or create an AppClient instance."""
-        if self._app_client is None:
+    async def _get_viam_client(self) -> ViamClient:
+        """Get or create a ViamClient instance."""
+        if self._viam_client is None:
             # Get credentials from environment variables
             api_key = os.getenv("VIAM_API_KEY")
             api_key_id = os.getenv("VIAM_API_KEY_ID")
@@ -40,9 +40,9 @@ class UserDefinedMetadata(Sensor, EasyResource):
                 api_key_id=api_key_id
             )
             
-            self._app_client = AppClient(dial_options)
+            self._viam_client = await ViamClient.create_from_dial_options(dial_options)
             
-        return self._app_client
+        return self._viam_client
 
     @classmethod
     def new(
@@ -111,9 +111,9 @@ class UserDefinedMetadata(Sensor, EasyResource):
             if not robot_part_id:
                 raise ValueError("VIAM_MACHINE_PART_ID environment variable is required")
             
-            # Get app client
-            app_client = await self._get_app_client()
-            
+            # Get viam client
+            viam_client = await self._get_viam_client()
+            app_client = viam_client.app_client
             # Fetch robot and robot part metadata
             robot_metadata = await app_client.get_robot_metadata(robot_id)
             part_metadata = await app_client.get_robot_part_metadata(robot_part_id)
@@ -143,7 +143,7 @@ class UserDefinedMetadata(Sensor, EasyResource):
         Expected command format:
         {
             "command": "update",
-            "scope": "part|machine", 
+            "scope": "part|robot", 
             "metadata": <python dict>
         }
         
@@ -166,8 +166,8 @@ class UserDefinedMetadata(Sensor, EasyResource):
             if cmd != "update":
                 raise ValueError(f"Unsupported command: {cmd}. Only 'update' is supported.")
                 
-            if scope not in ["part", "machine"]:
-                raise ValueError(f"Invalid scope: {scope}. Must be 'part' or 'machine'.")
+            if scope not in ["part", "robot"]:
+                raise ValueError(f"Invalid scope: {scope}. Must be 'part' or 'robot'.")
                 
             if not isinstance(metadata, dict):
                 raise ValueError("metadata must be a dictionary")
@@ -181,17 +181,18 @@ class UserDefinedMetadata(Sensor, EasyResource):
             if not robot_part_id:
                 raise ValueError("VIAM_MACHINE_PART_ID environment variable is required")
             
-            # Get app client
-            app_client = await self._get_app_client()
-            
+            # Get viam client
+            viam_client = await self._get_viam_client()
+            app_client = viam_client.app_client
+
             # Update metadata based on scope
-            if scope == "machine":
+            if scope == "robot":
                 await app_client.update_robot_metadata(robot_id, metadata)
                 self.logger.info(f"Successfully updated robot metadata for robot {robot_id}")
                 return {
                     "success": True,
                     "message": f"Robot metadata updated successfully",
-                    "scope": "machine",
+                    "scope": "robot",
                     "robot_id": robot_id
                 }
             elif scope == "part":
