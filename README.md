@@ -2,7 +2,7 @@
 
 A Viam sensor component that provides access to user-defined metadata for robots and robot parts through the Viam Fleet Management API. This module allows you to read and update custom metadata associated with your machines and their parts.
 
-## Model mcvella:sensor:user-defined-metadata
+## Model viam-soleng:sensor:user-defined-metadata
 
 This sensor component fetches and updates user-defined metadata from the Viam platform using the Fleet Management API. It provides both read and write access to metadata at the robot (machine) level and robot part level.
 
@@ -35,7 +35,7 @@ If running from the registry, they will typically already be available in the en
 ```json
 {
   "name": "metadata-sensor",
-  "model": "mcvella:sensor:user-defined-metadata",
+  "model": "viam-soleng:sensor:user-defined-metadata",
   "type": "sensor"
 }
 ```

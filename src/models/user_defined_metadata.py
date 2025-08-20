@@ -18,7 +18,7 @@ class UserDefinedMetadata(Sensor, EasyResource):
     # To enable debug-level logging, either run viam-server with the --debug option,
     # or configure your resource/machine to display debug logs.
     MODEL: ClassVar[Model] = Model(
-        ModelFamily("mcvella", "sensor"), "user-defined-metadata"
+        ModelFamily("viam-soleng", "sensor"), "user-defined-metadata"
     )
 
     def __init__(self, name: str):

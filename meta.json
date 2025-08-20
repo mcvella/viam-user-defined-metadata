@@ -1,13 +1,13 @@
 {
   "$schema": "https://dl.viam.dev/module.schema.json",
-  "module_id": "mcvella:user-defined-metadata",
+  "module_id": "viam-soleng:user-defined-metadata",
   "visibility": "public",
-  "url": "https://github.com/mcvella/viam-user-defined-metadata",
+  "url": "https://github.com/viam-soleng/viam-user-defined-metadata",
   "description": "Modular sensor component: user-defined-metadata",
   "models": [
     {
       "api": "rdk:component:sensor",
-      "model": "mcvella:sensor:user-defined-metadata",
+      "model": "viam-soleng:sensor:user-defined-metadata",
       "short_description": "A Viam sensor component that provides access to user-defined metadata for robots and robot parts",
       "markdown_link": "README.md"
     }
